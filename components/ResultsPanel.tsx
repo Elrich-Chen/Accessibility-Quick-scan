@@ -9,7 +9,7 @@ export default function ResultsPanel({ report }: ResultsPanelProps) {
     );
   }
 
-  const { passes, issues } = report;
+  const { passes, issues, stats } = report;
 
   return (
     <section className="w-full rounded-2xl border border-slate-200/70 bg-slate-50/80 p-6 shadow-sm dark:border-slate-700 dark:bg-slate-800/70 space-y-5">

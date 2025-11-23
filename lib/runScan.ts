@@ -6,6 +6,10 @@ import type { Issue, Report } from './types';
 export function runScan(doc: Document): Report {
     const issues:Issue[] = [];
     const passes: string[] = [];
+    const stats = {
+        total: 0,
+        issues: 0
+    }
 
     const Img_Report = check_image(doc);
     const Headings_Report = check_headings(doc);
@@ -14,5 +18,5 @@ export function runScan(doc: Document): Report {
     issues.push(...Img_Report.issues, ...Headings_Report.issues, ...Links_Report.issues);
     passes.push(...Img_Report.passes, ...Headings_Report.passes, ...Links_Report.passes);
 
-    return { issues, passes };
+    return { issues, passes, stats };
 }

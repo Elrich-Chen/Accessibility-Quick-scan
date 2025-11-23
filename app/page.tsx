@@ -5,18 +5,8 @@ import { useState } from "react";
 import ScannerInput from "@/components/ScannerInput";
 import { parseHTML } from "@/lib/parser";
 import { runScan } from "@/lib/runScan";
+import type { Issue, Report } from '@/lib/types';
 // import Image from "next/image";
-
-type Report = {
-  passes: string[];
-  issues: Issue[];
-};
-
-type Issue = {
-  message: string;
-  why: string;
-  suggestion: string;
-};
 
 export default function Home() {
   const [html, setHtml] = useState("");
@@ -30,8 +20,11 @@ export default function Home() {
     } else {
       setReport({
         passes: [],
-        issues: [{message: "Missing input", why: "", suggestion: ""
-        }]
+        issues: [{message: "Missing input", why: "", suggestion: ""}],
+        stats: {
+          total: 0,
+          issues: 0
+        }
       })
     }
   }
