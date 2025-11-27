@@ -5,7 +5,7 @@ import type { ScannerInputProps } from '@/lib/types';
 export default function ScannerInput({html, onHtmlChange, onScan }: ScannerInputProps) {
     return (
         <div className="w-full space-y-3">
-            <label className="block text-sm font-semibold text-slate-700 dark:text-slate-200">
+            <label className="block text-sm font-semibold text-slate-200 dark:text-slate-200">
                 HTML Input
             </label>
             <textarea className="text-black w-full h-48 rounded-xl border border-slate-200 bg-white/80 p-3 text-sm shadow-inner outline-none transition focus:border-indigo-500 focus:ring-2 focus:ring-indigo-200 dark:border-slate-700 dark:bg-slate-800/80 dark:text-slate-100 dark:focus:border-indigo-400"

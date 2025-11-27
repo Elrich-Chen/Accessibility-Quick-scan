@@ -52,7 +52,7 @@ export default function ResultsPanel({ report }: ResultsPanelProps) {
       </div>
 
       {/* BUTTONS SECTION */}
-      <div className="flex gap-2 mb-2">
+      <div className="flex gap-3 mb-4">
       {FILTERS.map((f) => (
         <button
           key={f}
@@ -60,8 +60,8 @@ export default function ResultsPanel({ report }: ResultsPanelProps) {
           onClick={() => setFilter(f)}
           className={
             filter === f
-              ? "bg-indigo-600 text-white px-3 py-1 rounded-full text-xs"
-              : "bg-white text-slate-700 px-3 py-1 rounded-full text-xs"
+              ? "bg-blue-600 text-white px-6 py-2.5 rounded-full text-sm font-semibold shadow-md transition-all hover:bg-blue-700 hover:shadow-lg"
+              : "bg-white text-slate-700 px-6 py-2.5 rounded-full text-sm font-medium shadow-sm transition-all hover:bg-slate-50 hover:shadow-md"
           }
         >
           {f[0].toUpperCase() + f.slice(1)} {f === 'all'?
@@ -86,7 +86,7 @@ export default function ResultsPanel({ report }: ResultsPanelProps) {
                 <p className="text-xs text-slate-700 dark:text-slate-200">
                   <span className="font-semibold">Why:</span> {issue.why}
                 </p>
-                <p className="text-xs text-indigo-700 dark:text-indigo-300">
+                <p className="text-xs text-blue-700 dark:text-blue-300">
                   <span className="font-semibold">Fix:</span> {issue.suggestion}
                 </p>
               </li>
