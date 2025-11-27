@@ -2,15 +2,17 @@ export type Issue = {
   message: string;
   why: string;
   suggestion: string;
+  type: "image" | "heading" | "link" 
+};
+
+export type Stats = {
+  total: number;
+  issues: number;
 };
 
 export type Report = {
   passes: string[];
   issues: Issue[];
-  stats: {
-    total: number,
-    issues: number
-  }
 };
 
 export type ScannerInputProps = {

@@ -1,15 +1,38 @@
+import { useState } from 'react';
 import type { ResultsPanelProps } from '@/lib/types';
 
+const FILTERS = ["all", "image", "heading", "link"] as const;
+type filter = (typeof FILTERS)[number];
+
 export default function ResultsPanel({ report }: ResultsPanelProps) {
+  const [filter, setFilter] = useState<filter>("all");
+
   if (!report) {
     return (
-      <section className="w-full rounded-2xl border border-slate-200/70 bg-slate-50/80 p-6 text-center text-slate-500 shadow-sm dark:border-slate-700 dark:bg-slate-800/70 dark:text-slate-300">
-        No scan yet.
+      <section className="w-full rounded-2xl border-4 border-slate-400 bg-slate-50/80 p-12 py-24 text-center text-slate-500 shadow-sm dark:border-slate-600 dark:bg-slate-800/70 dark:text-slate-300 flex flex-col items-center justify-center gap-4">
+        <span className="material-symbols-outlined text-6xl">file_copy_off</span>
+        <p className="text-lg">No scan yet.</p>
       </section>
     );
   }
 
-  const { passes, issues, stats } = report;
+  const { passes, issues } = report;
+
+  const emptyCounts = {
+    image: 0,
+    heading: 0,
+    link: 0,
+  };
+
+  const issueCounts = issues.reduce((acc, issue) => {
+    acc[issue.type] = (acc[issue.type] ?? 0) + 1;
+    return acc;
+  }, {... emptyCounts});
+
+  const filteredIssues = 
+    filter === "all" ?
+      issues:
+      issues.filter((issue) => issue.type === filter);
 
   return (
     <section className="w-full rounded-2xl border border-slate-200/70 bg-slate-50/80 p-6 shadow-sm dark:border-slate-700 dark:bg-slate-800/70 space-y-5">
@@ -28,15 +51,36 @@ export default function ResultsPanel({ report }: ResultsPanelProps) {
         )}
       </div>
 
+      {/* BUTTONS SECTION */}
+      <div className="flex gap-2 mb-2">
+      {FILTERS.map((f) => (
+        <button
+          key={f}
+          type="button"
+          onClick={() => setFilter(f)}
+          className={
+            filter === f
+              ? "bg-indigo-600 text-white px-3 py-1 rounded-full text-xs"
+              : "bg-white text-slate-700 px-3 py-1 rounded-full text-xs"
+          }
+        >
+          {f[0].toUpperCase() + f.slice(1)} {f === 'all'?
+          issues.length:
+          issueCounts[f]}
+        </button>
+      ))}
+    </div>
+
+      
       {/* ISSUES */}
       <div className="space-y-2">
         <h2 className="text-lg font-semibold text-slate-800 dark:text-slate-100">Issues Found</h2>
 
-        {issues.length === 0 ? (
+        {filteredIssues.length === 0 ? (
           <p className="text-slate-500 text-sm dark:text-slate-300">No issues found 🎉</p>
         ) : (
           <ul className="space-y-3">
-            {issues.map((issue, i) => (
+            {filteredIssues.map((issue, i) => (
               <li key={i} className="space-y-1 rounded-xl border border-slate-200/70 bg-white/80 p-3 shadow-sm dark:border-slate-700 dark:bg-slate-900/70">
                 <p className="font-medium text-sm text-slate-900 dark:text-slate-50 whitespace-pre-wrap">{issue.message}</p>
                 <p className="text-xs text-slate-700 dark:text-slate-200">
