@@ -57,7 +57,7 @@ export default function Home() {
       </div>
 
       <header className="fixed left-0 right-0 top-0 z-20 border-b border-[color:var(--border)] bg-[color:var(--background)]/80 backdrop-blur-lg">
-        <div className="mx-auto flex h-20 w-full max-w-6xl items-center justify-between px-6">
+        <div className="mx-auto flex h-20 w-full max-w-7xl items-center justify-between px-6">
           <div className="flex items-center gap-3">
             <span className="flex h-10 w-10 items-center justify-center rounded-2xl bg-gradient-to-br from-[var(--accent)] to-[var(--accent-secondary)] text-white shadow-accent">
               <span className="material-symbols-outlined text-xl">search</span>
@@ -77,8 +77,8 @@ export default function Home() {
         </div>
       </header>
 
-      <main className="relative z-10 mx-auto flex w-full max-w-6xl flex-col gap-16 px-6 pb-24 pt-32">
-        <section className="grid items-center gap-12 lg:grid-cols-[1.1fr_0.9fr]">
+      <main className="relative z-10 mx-auto flex w-full max-w-7xl flex-col gap-24 px-6 pb-28 pt-32">
+        <section className="grid min-h-[90vh] items-center gap-12 py-10 lg:min-h-screen lg:grid-cols-[1.1fr_0.9fr] lg:py-20">
           <div className="space-y-6">
             <SectionLabel>WCAG QuickScan</SectionLabel>
             <h1 className="font-display text-[2.75rem] leading-[1.05] tracking-tight sm:text-6xl lg:text-[5.25rem]">
@@ -154,7 +154,7 @@ export default function Home() {
           </div>
           <div className="rounded-[2rem] bg-gradient-to-br from-[var(--accent)] via-[var(--accent-secondary)] to-[var(--accent)] p-[2px] shadow-accent-lg">
             <Card className="rounded-[calc(2rem-2px)] p-8 shadow-lift md:p-10">
-              <div className="grid gap-10 lg:grid-cols-[0.9fr_1.1fr]">
+              <div className="grid gap-10 2xl:grid-cols-[0.7fr_1.3fr]">
                 <ScannerInput html={html} onHtmlChange={setHtml} onScan={handleScan} />
                 <ResultsPanel report={report} />
               </div>
