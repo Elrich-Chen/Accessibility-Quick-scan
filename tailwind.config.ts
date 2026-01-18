@@ -10,10 +10,10 @@ const config: Config = {
     extend: {
       fontFamily: {
         // This creates the 'font-display' class
-        display: ['var(--font-fig-tree)', 'serif'],
+        display: ['var(--font-calistoga)', 'serif'],
         // These ensure your other fonts still work with Tailwind classes
-        sans: ['var(--font-geist-sans)', 'sans-serif'],
-        mono: ['var(--font-geist-mono)', 'monospace'],
+        sans: ['var(--font-inter)', 'sans-serif'],
+        mono: ['var(--font-jetbrains)', 'monospace'],
       },
     },
   },

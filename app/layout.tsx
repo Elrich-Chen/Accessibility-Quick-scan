@@ -1,20 +1,23 @@
 import type { Metadata } from "next";
-import { Figtree, Geist, Geist_Mono } from "next/font/google";
+import { Calistoga, Inter, JetBrains_Mono } from "next/font/google";
 import "./globals.css";
 
-const geistSans = Geist({
-  variable: "--font-geist-sans",
+const inter = Inter({
   subsets: ["latin"],
+  variable: "--font-inter",
+  weight: ["400", "500", "600", "700"],
 });
 
-const figtree = Figtree({
+const calistoga = Calistoga({
   subsets: ["latin"],
-  variable: "--font-fig-tree",
+  variable: "--font-calistoga",
+  weight: "400",
 });
 
-const geistMono = Geist_Mono({
-  variable: "--font-geist-mono",
+const jetbrainsMono = JetBrains_Mono({
   subsets: ["latin"],
+  variable: "--font-jetbrains",
+  weight: ["400", "500"],
 });
 
 export const metadata: Metadata = {
@@ -32,7 +35,7 @@ export default function RootLayout({
       <head>
         <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200&icon_names=file_copy_off,search" />
       </head>
-      <body className={`${geistSans.variable} ${geistMono.variable} ${figtree.variable} antialiased`}>
+      <body className={`${inter.variable} ${jetbrainsMono.variable} ${calistoga.variable} antialiased`}>
         {children}
       </body>
     </html>

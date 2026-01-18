@@ -1,17 +1,34 @@
-import { useState } from 'react';
-import type { ResultsPanelProps } from '@/lib/types';
+import { useState } from "react";
+import type { ResultsPanelProps } from "@/lib/types";
+import Button from "@/components/ui/Button";
+import SectionLabel from "@/components/ui/SectionLabel";
 
 const FILTERS = ["all", "image", "heading", "link"] as const;
-type filter = (typeof FILTERS)[number];
+type Filter = (typeof FILTERS)[number];
 
 export default function ResultsPanel({ report }: ResultsPanelProps) {
-  const [filter, setFilter] = useState<filter>("all");
+  const [filter, setFilter] = useState<Filter>("all");
 
   if (!report) {
     return (
-      <section className="w-full rounded-2xl border-4 border-slate-400 bg-slate-50/80 p-12 py-24 text-center text-slate-500 shadow-sm dark:border-slate-600 dark:bg-slate-800/70 dark:text-slate-300 flex flex-col items-center justify-center gap-4">
-        <span className="material-symbols-outlined text-6xl">file_copy_off</span>
-        <p className="text-lg">No scan yet.</p>
+      <section className="relative w-full overflow-hidden rounded-3xl border border-white/10 bg-[color:var(--foreground)] p-6 text-[color:var(--background)] shadow-lift">
+        <div className="pointer-events-none absolute inset-0 dot-grid opacity-20" />
+        <div className="relative space-y-6">
+          <div className="flex flex-wrap items-center justify-between gap-4">
+            <SectionLabel>Results</SectionLabel>
+            <span className="text-xs font-mono uppercase tracking-[0.2em] text-white/60">
+              Awaiting Scan
+            </span>
+          </div>
+          <div className="flex flex-col items-center justify-center gap-4 rounded-2xl border border-white/10 bg-white/5 px-6 py-12 text-center text-white/70">
+            <span className="material-symbols-outlined text-5xl text-white/80">
+              file_copy_off
+            </span>
+            <p className="text-sm">
+              No scan yet. Paste HTML and run a scan to see results here.
+            </p>
+          </div>
+        </div>
       </section>
     );
   }
@@ -27,72 +44,105 @@ export default function ResultsPanel({ report }: ResultsPanelProps) {
   const issueCounts = issues.reduce((acc, issue) => {
     acc[issue.type] = (acc[issue.type] ?? 0) + 1;
     return acc;
-  }, {... emptyCounts});
+  }, { ...emptyCounts });
 
-  const filteredIssues = 
-    filter === "all" ?
-      issues:
-      issues.filter((issue) => issue.type === filter);
+  const filteredIssues =
+    filter === "all" ? issues : issues.filter((issue) => issue.type === filter);
 
   return (
-    <section className="w-full rounded-2xl border border-slate-200/70 bg-slate-50/80 p-6 shadow-sm dark:border-slate-700 dark:bg-slate-800/70 space-y-5">
-      {/* PASSES */}
-      <div className="space-y-2">
-        <h2 className="text-lg font-semibold text-slate-800 dark:text-slate-100"> Passed</h2>
+    <section className="relative w-full overflow-hidden rounded-3xl border border-white/10 bg-[color:var(--foreground)] p-6 text-[color:var(--background)] shadow-lift">
+      <div className="pointer-events-none absolute inset-0 dot-grid opacity-20" />
+      <div className="relative space-y-6">
+        <div className="flex flex-wrap items-center justify-between gap-4">
+          <SectionLabel>Results</SectionLabel>
+          <div className="flex items-center gap-3 text-xs text-white/60">
+            <span className="inline-flex items-center gap-2 rounded-full border border-white/20 px-3 py-1 font-mono uppercase tracking-[0.2em]">
+              <span className="h-2 w-2 rounded-full bg-[color:var(--accent)] motion-safe:animate-[pulse-soft_2s_ease-in-out_infinite]" />
+              Live
+            </span>
+            <span>{issues.length} issues</span>
+          </div>
+        </div>
 
-        {passes.length === 0 ? (
-          <p className="text-slate-500 text-sm dark:text-slate-300">No passes yet.</p>
-        ) : (
-          <ul className="list-disc ml-5 text-sm space-y-1 text-slate-800 dark:text-slate-100">
-            {passes.map((p, i) => (
-              <li key={i} className="leading-relaxed">{p}</li>
-            ))}
-          </ul>
-        )}
-      </div>
+        <div className="grid gap-6 lg:grid-cols-[0.9fr_1.1fr]">
+          <div className="rounded-2xl border border-white/10 bg-white/5 p-5">
+            <div className="flex items-center justify-between gap-3">
+              <h2 className="text-sm font-semibold uppercase tracking-[0.2em] text-white/70">
+                Passes
+              </h2>
+              <span className="rounded-full border border-white/15 px-3 py-1 text-xs text-white/60">
+                {passes.length} checks
+              </span>
+            </div>
 
-      {/* BUTTONS SECTION */}
-      <div className="flex gap-3 mb-4">
-      {FILTERS.map((f) => (
-        <button
-          key={f}
-          type="button"
-          onClick={() => setFilter(f)}
-          className={
-            filter === f
-              ? "bg-blue-600 text-white px-6 py-2.5 rounded-full text-sm font-semibold shadow-md transition-all hover:bg-blue-700 hover:shadow-lg"
-              : "bg-white text-slate-700 px-6 py-2.5 rounded-full text-sm font-medium shadow-sm transition-all hover:bg-slate-50 hover:shadow-md"
-          }
-        >
-          {f[0].toUpperCase() + f.slice(1)} {f === 'all'?
-          issues.length:
-          issueCounts[f]}
-        </button>
-      ))}
-    </div>
+            {passes.length === 0 ? (
+              <p className="mt-4 text-sm text-white/60">No passes yet.</p>
+            ) : (
+              <ul className="mt-4 space-y-2 text-sm text-white/80">
+                {passes.map((p, i) => (
+                  <li key={i} className="leading-relaxed">
+                    {p}
+                  </li>
+                ))}
+              </ul>
+            )}
+          </div>
 
-      
-      {/* ISSUES */}
-      <div className="space-y-2">
-        <h2 className="text-lg font-semibold text-slate-800 dark:text-slate-100">Issues Found</h2>
+          <div className="space-y-4 rounded-2xl border border-white/10 bg-white/5 p-5">
+            <div className="flex items-center justify-between gap-3">
+              <h2 className="text-sm font-semibold uppercase tracking-[0.2em] text-white/70">
+                Issues
+              </h2>
+              <span className="rounded-full border border-white/15 px-3 py-1 text-xs text-white/60">
+                {issues.length} total
+              </span>
+            </div>
 
-        {filteredIssues.length === 0 ? (
-          <p className="text-slate-500 text-sm dark:text-slate-300">No issues found 🎉</p>
-        ) : (
-          <ul className="space-y-3">
-            {filteredIssues.map((issue, i) => (
-              <li key={i} className="space-y-1 rounded-xl border border-slate-200/70 bg-white/80 p-3 shadow-sm dark:border-slate-700 dark:bg-slate-900/70">
-                <p className="font-medium text-sm text-slate-900 dark:text-slate-50 whitespace-pre-wrap">{issue.message}</p>
-                <p className="text-xs text-slate-700 dark:text-slate-200">
-                  <span className="font-semibold">Why:</span> {issue.why}
-                </p>
-                <p className="text-xs text-blue-700 dark:text-blue-300">
-                  <span className="font-semibold">Fix:</span> {issue.suggestion}
-                </p>
-              </li>
-            ))}
-          </ul>
-        )}
+            <div className="flex flex-wrap gap-2">
+              {FILTERS.map((f) => {
+                const isActive = filter === f;
+                return (
+                    <Button
+                      key={f}
+                      type="button"
+                      size="sm"
+                      variant={isActive ? "primary" : "ghost"}
+                      onClick={() => setFilter(f)}
+                      className={
+                        isActive
+                        ? "rounded-full px-4"
+                        : "rounded-full border border-white/15 text-white/70 hover:border-white/30 hover:bg-white/10 hover:text-white"
+                      }
+                    >
+                    {f[0].toUpperCase() + f.slice(1)}{" "}
+                    {f === "all" ? issues.length : issueCounts[f]}
+                  </Button>
+                );
+              })}
+            </div>
+
+            {filteredIssues.length === 0 ? (
+              <p className="text-sm text-white/60">No issues found.</p>
+            ) : (
+              <ul className="space-y-3">
+                {filteredIssues.map((issue, i) => (
+                  <li key={i}>
+                    <div className="rounded-2xl border border-white/30 bg-white/95 p-4 text-[color:var(--foreground)] shadow-soft">
+                      <p className="text-sm font-semibold">{issue.message}</p>
+                      <p className="mt-2 text-xs text-[color:var(--muted-foreground)]">
+                        <span className="font-semibold">Why:</span> {issue.why}
+                      </p>
+                      <p className="mt-1 text-xs text-[color:var(--accent)]">
+                        <span className="font-semibold">Fix:</span>{" "}
+                        {issue.suggestion}
+                      </p>
+                    </div>
+                  </li>
+                ))}
+              </ul>
+            )}
+          </div>
+        </div>
       </div>
     </section>
   );
