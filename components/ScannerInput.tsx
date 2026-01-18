@@ -68,16 +68,18 @@ export default function ScannerInput({ html, onHtmlChange, onScan }: ScannerInpu
             draggable
             onDragStart={handleSampleDragStart}
             onClick={() => onHtmlChange(sampleHtml)}
-            className="group inline-flex items-center gap-2 rounded-full border border-[color:rgba(0,82,255,0.4)] bg-[color:rgba(0,82,255,0.15)] px-4 py-2 text-xs font-semibold text-[color:var(--accent)] shadow-soft transition hover:-translate-y-0.5 hover:bg-[color:rgba(0,82,255,0.22)] active:translate-y-0 motion-safe:animate-[float_6s_ease-in-out_infinite] cursor-grab active:cursor-grabbing"
-            aria-label="Drag sample HTML into the input or click to fill"
+            className="group flex flex-col items-start gap-0.5 rounded-2xl border border-dashed border-[color:rgba(0,82,255,0.5)] bg-[color:rgba(0,82,255,0.12)] px-4 py-2 text-xs font-semibold text-[color:var(--accent)] shadow-soft transition hover:-translate-y-0.5 hover:bg-[color:rgba(0,82,255,0.2)] active:translate-y-0 motion-safe:animate-[float_6s_ease-in-out_infinite] cursor-grab active:cursor-grabbing"
+            aria-label="Drag this sample prompt into the input or click to fill"
             title="Drag into the box or click to load"
           >
-            <span className="material-symbols-outlined text-base">drag_indicator</span>
-            Sample bubble
+            <span>Sample prompt</span>
+            <span className="text-[0.65rem] font-mono uppercase tracking-[0.2em] text-[color:var(--muted-foreground)]">
+              drag into box
+            </span>
           </button>
         </div>
         <p className="mt-2 text-xs text-[color:var(--muted-foreground)]">
-          Drag the bubble into the box or click it to load a sample.
+          Drag this bubble into the box above (or click it to fill).
         </p>
         <textarea
           id="html-input"

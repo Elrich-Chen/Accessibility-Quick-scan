@@ -77,8 +77,8 @@ export default function Home() {
         </div>
       </header>
 
-      <main className="relative z-10 mx-auto flex w-full max-w-7xl flex-col gap-24 px-6 pb-28 pt-32">
-        <section className="grid min-h-[90vh] items-center gap-12 py-10 lg:min-h-screen lg:grid-cols-[1.1fr_0.9fr] lg:py-20">
+      <main className="relative z-10 mx-auto flex w-full max-w-7xl flex-col gap-16 px-6 pb-24 pt-28">
+        <section className="mx-auto grid min-h-[70vh] w-full max-w-6xl items-center gap-12 py-6 lg:min-h-[75vh] lg:grid-cols-[1.1fr_0.9fr] lg:py-12">
           <div className="space-y-6">
             <SectionLabel>WCAG QuickScan</SectionLabel>
             <h1 className="font-display text-[2.75rem] leading-[1.05] tracking-tight sm:text-6xl lg:text-[5.25rem]">
