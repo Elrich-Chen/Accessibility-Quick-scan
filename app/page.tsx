@@ -1,7 +1,7 @@
 "use client";
 
 import ResultsPanel from "@/components/ResultsPanel";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import ScannerInput from "@/components/ScannerInput";
 import { parseHTML } from "@/lib/parser";
 import { runScan } from "@/lib/runScan";
@@ -13,6 +13,28 @@ import SectionLabel from "@/components/ui/SectionLabel";
 export default function Home() {
   const [html, setHtml] = useState("");
   const [report, setReport] = useState<Report | null>(null);
+  const [sitesLoaded, setSitesLoaded] = useState(0);
+
+  useEffect(() => {
+    const target = 200;
+    const durationMs = 1200;
+    const start = Date.now();
+    let rafId = 0;
+
+    const tick = () => {
+      const elapsed = Date.now() - start;
+      const progress = Math.min(elapsed / durationMs, 1);
+      setSitesLoaded(Math.floor(target * progress));
+      if (progress < 1) {
+        rafId = requestAnimationFrame(tick);
+      }
+    };
+
+    rafId = requestAnimationFrame(tick);
+    return () => cancelAnimationFrame(rafId);
+  }, []);
+
+  const sitesLoadedLabel = sitesLoaded >= 200 ? "200+" : `${sitesLoaded}`;
 
   function handleScan() {
     const doc = parseHTML(html);
@@ -113,9 +135,26 @@ export default function Home() {
         </section>
 
         <section id="scan" className="relative">
+          <div className="mb-10 grid gap-6 lg:grid-cols-[1.05fr_0.95fr]">
+            <div className="relative overflow-hidden rounded-3xl border border-[color:var(--border)] bg-[color:var(--card)] p-6 shadow-soft">
+              <div className="pointer-events-none absolute -right-10 -top-12 h-40 w-40 rounded-full bg-[rgba(0,82,255,0.18)] blur-[90px]" />
+              <p className="font-display text-5xl tracking-tight sm:text-6xl lg:text-7xl">
+                {sitesLoadedLabel}
+              </p>
+              <p className="mt-2 text-xs font-mono uppercase tracking-[0.25em] text-[color:var(--muted-foreground)]">
+                websites loaded for quick checks
+              </p>
+            </div>
+            <div className="flex flex-col justify-between gap-3 rounded-3xl border border-[color:var(--border)] bg-[color:var(--muted)] p-6 text-sm text-[color:var(--muted-foreground)]">
+              <p className="text-base text-[color:var(--foreground)]">
+                Drop a snippet below or drag the sample bubble to see the scanner in action.
+              </p>
+              <p className="text-xs">No signup. No storage. Just quick checks.</p>
+            </div>
+          </div>
           <div className="rounded-[2rem] bg-gradient-to-br from-[var(--accent)] via-[var(--accent-secondary)] to-[var(--accent)] p-[2px] shadow-accent-lg">
             <Card className="rounded-[calc(2rem-2px)] p-8 shadow-lift md:p-10">
-              <div className="grid gap-10 lg:grid-cols-[1.05fr_0.95fr]">
+              <div className="grid gap-10 lg:grid-cols-[0.9fr_1.1fr]">
                 <ScannerInput html={html} onHtmlChange={setHtml} onScan={handleScan} />
                 <ResultsPanel report={report} />
               </div>

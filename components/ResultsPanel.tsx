@@ -64,8 +64,8 @@ export default function ResultsPanel({ report }: ResultsPanelProps) {
           </div>
         </div>
 
-        <div className="grid gap-6 lg:grid-cols-[0.9fr_1.1fr]">
-          <div className="rounded-2xl border border-white/10 bg-white/5 p-5">
+        <div className="grid gap-6 xl:grid-cols-[0.9fr_1.1fr]">
+          <div className="rounded-2xl border border-white/10 bg-white/5 p-6">
             <div className="flex items-center justify-between gap-3">
               <h2 className="text-sm font-semibold uppercase tracking-[0.2em] text-white/70">
                 Passes
@@ -88,7 +88,7 @@ export default function ResultsPanel({ report }: ResultsPanelProps) {
             )}
           </div>
 
-          <div className="space-y-4 rounded-2xl border border-white/10 bg-white/5 p-5">
+          <div className="space-y-4 rounded-2xl border border-white/10 bg-white/5 p-6">
             <div className="flex items-center justify-between gap-3">
               <h2 className="text-sm font-semibold uppercase tracking-[0.2em] text-white/70">
                 Issues
