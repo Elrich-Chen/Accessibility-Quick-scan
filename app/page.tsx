@@ -118,8 +118,17 @@ export default function Home() {
                 </span>
               </div>
               <div className="grid gap-3">
-                <div className="h-24 rounded-2xl border border-[color:var(--border)] bg-[color:var(--muted)] shadow-soft motion-safe:animate-[float_6s_ease-in-out_infinite]" />
-                <div className="h-16 rounded-2xl border border-[color:var(--border)] bg-[color:var(--card)] shadow-soft motion-safe:animate-[float_7s_ease-in-out_infinite]" />
+                <div className="flex h-24 flex-col justify-between rounded-2xl border border-[color:var(--border)] bg-[color:var(--muted)] p-3 shadow-soft motion-safe:animate-[float_6s_ease-in-out_infinite]">
+                  <p className="text-[0.65rem] font-mono uppercase tracking-[0.2em] text-[color:var(--muted-foreground)]">
+                    Sample Scan
+                  </p>
+                  <p className="text-sm font-semibold text-[color:var(--foreground)]">
+                    3 issues · 5 passes
+                  </p>
+                </div>
+                <div className="flex h-16 items-center rounded-2xl border border-[color:var(--border)] bg-[color:var(--card)] p-3 text-xs text-[color:var(--muted-foreground)] shadow-soft motion-safe:animate-[float_7s_ease-in-out_infinite]">
+                  Missing alt text, heading jump, vague link.
+                </div>
               </div>
               <div className="flex items-center gap-3">
                 <div className="h-12 w-12 rounded-2xl bg-[color:var(--accent)] shadow-accent" />
