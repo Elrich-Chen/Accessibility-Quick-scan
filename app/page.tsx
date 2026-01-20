@@ -1,7 +1,7 @@
 "use client";
 
 import ResultsPanel from "@/components/ResultsPanel";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import ScannerInput from "@/components/ScannerInput";
 import { parseHTML } from "@/lib/parser";
 import { runScan } from "@/lib/runScan";
@@ -14,12 +14,42 @@ export default function Home() {
   const [html, setHtml] = useState("");
   const [report, setReport] = useState<Report | null>(null);
   const [sitesLoaded, setSitesLoaded] = useState(0);
+  const statsRef = useRef<HTMLDivElement | null>(null);
+  const [statsVisible, setStatsVisible] = useState(false);
 
   useEffect(() => {
+    const node = statsRef.current;
+    if (!node) return;
+
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting) {
+          setStatsVisible(true);
+          observer.disconnect();
+        }
+      },
+      { threshold: 0.35 }
+    );
+
+    observer.observe(node);
+    return () => observer.disconnect();
+  }, []);
+
+  useEffect(() => {
+    if (!statsVisible) return;
+
     const target = 200;
     const durationMs = 1200;
     const start = Date.now();
     let rafId = 0;
+    const prefersReducedMotion = window.matchMedia(
+      "(prefers-reduced-motion: reduce)"
+    ).matches;
+
+    if (prefersReducedMotion) {
+      setSitesLoaded(target);
+      return;
+    }
 
     const tick = () => {
       const elapsed = Date.now() - start;
@@ -32,7 +62,7 @@ export default function Home() {
 
     rafId = requestAnimationFrame(tick);
     return () => cancelAnimationFrame(rafId);
-  }, []);
+  }, [statsVisible]);
 
   const sitesLoadedLabel = sitesLoaded >= 200 ? "200+" : `${sitesLoaded}`;
 
@@ -145,9 +175,16 @@ export default function Home() {
 
         <section id="scan" className="relative">
           <div className="mb-10 grid gap-6 lg:grid-cols-[1.05fr_0.95fr]">
-            <div className="relative overflow-hidden rounded-3xl border border-[color:var(--border)] bg-[color:var(--card)] p-6 shadow-soft">
+            <div
+              ref={statsRef}
+              className="relative overflow-hidden rounded-3xl border border-[color:var(--border)] bg-[color:var(--card)] p-6 shadow-soft"
+            >
               <div className="pointer-events-none absolute -right-10 -top-12 h-40 w-40 rounded-full bg-[rgba(0,82,255,0.18)] blur-[90px]" />
-              <p className="font-display text-5xl tracking-tight sm:text-6xl lg:text-7xl">
+              <p
+                className={`font-display text-5xl tracking-tight transition-opacity duration-700 sm:text-6xl lg:text-7xl ${
+                  statsVisible ? "opacity-100" : "opacity-0"
+                }`}
+              >
                 {sitesLoadedLabel}
               </p>
               <p className="mt-2 text-xs font-mono uppercase tracking-[0.25em] text-[color:var(--muted-foreground)]">
@@ -171,6 +208,35 @@ export default function Home() {
           </div>
         </section>
       </main>
+
+      <footer className="relative z-10 mx-auto w-full max-w-6xl px-6 pb-12">
+        <div className="flex flex-col gap-4 border-t border-[color:var(--border)] pt-6 text-sm text-[color:var(--muted-foreground)] sm:flex-row sm:items-center sm:justify-between">
+          <div className="flex flex-wrap items-center gap-2">
+            <span className="font-mono text-[0.65rem] uppercase tracking-[0.3em] text-[color:var(--muted-foreground)]">
+              Made by
+            </span>
+            <span className="text-[color:var(--foreground)]">Elrich Chen</span>
+          </div>
+          <div className="flex items-center gap-4">
+            <a
+              href="https://github.com/Elrich-Chen"
+              target="_blank"
+              rel="noreferrer"
+              className="underline decoration-transparent underline-offset-4 transition hover:text-[color:var(--foreground)] hover:decoration-[color:var(--accent)]"
+            >
+              GitHub
+            </a>
+            <a
+              href="https://www.linkedin.com/in/Elrich-Chen"
+              target="_blank"
+              rel="noreferrer"
+              className="underline decoration-transparent underline-offset-4 transition hover:text-[color:var(--foreground)] hover:decoration-[color:var(--accent)]"
+            >
+              LinkedIn
+            </a>
+          </div>
+        </div>
+      </footer>
     </div>
   );
 }
