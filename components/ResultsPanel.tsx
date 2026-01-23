@@ -11,7 +11,7 @@ export default function ResultsPanel({ report }: ResultsPanelProps) {
 
   if (!report) {
     return (
-      <section className="relative w-full overflow-hidden rounded-3xl border border-white/10 bg-[color:var(--foreground)] p-6 text-[color:var(--background)] shadow-lift">
+      <section className="relative w-full overflow-hidden rounded-3xl border border-white/10 bg-[color:var(--foreground)] p-5 text-[color:var(--background)] shadow-lift transition-all duration-300 sm:p-6">
         <div className="pointer-events-none absolute inset-0 dot-grid opacity-20" />
         <div className="relative space-y-6">
           <div className="flex flex-wrap items-center justify-between gap-4">
@@ -20,7 +20,7 @@ export default function ResultsPanel({ report }: ResultsPanelProps) {
               Awaiting Scan
             </span>
           </div>
-          <div className="flex flex-col items-center justify-center gap-4 rounded-2xl border border-white/10 bg-white/5 px-6 py-12 text-center text-white/70">
+          <div className="flex flex-col items-center justify-center gap-4 rounded-2xl border border-white/10 bg-white/5 px-6 py-10 text-center text-white/70 sm:py-12">
             <span className="material-symbols-outlined text-5xl text-white/80">
               file_copy_off
             </span>
@@ -50,7 +50,7 @@ export default function ResultsPanel({ report }: ResultsPanelProps) {
     filter === "all" ? issues : issues.filter((issue) => issue.type === filter);
 
   return (
-    <section className="relative w-full overflow-hidden rounded-3xl border border-white/10 bg-[color:var(--foreground)] p-6 text-[color:var(--background)] shadow-lift">
+    <section className="relative w-full overflow-hidden rounded-3xl border border-white/10 bg-[color:var(--foreground)] p-5 text-[color:var(--background)] shadow-lift transition-all duration-300 sm:p-6">
       <div className="pointer-events-none absolute inset-0 dot-grid opacity-20" />
       <div className="relative space-y-6">
         <div className="flex flex-wrap items-center justify-between gap-4">
@@ -64,8 +64,8 @@ export default function ResultsPanel({ report }: ResultsPanelProps) {
           </div>
         </div>
 
-        <div className="grid gap-6 xl:grid-cols-[0.9fr_1.1fr]">
-          <div className="rounded-2xl border border-white/10 bg-white/5 p-6">
+        <div className="grid gap-4 sm:gap-6 xl:grid-cols-[0.9fr_1.1fr]">
+          <div className="rounded-2xl border border-white/10 bg-white/5 p-5 sm:p-6">
             <div className="flex items-center justify-between gap-3">
               <h2 className="text-sm font-semibold uppercase tracking-[0.2em] text-white/70">
                 Passes
@@ -88,7 +88,7 @@ export default function ResultsPanel({ report }: ResultsPanelProps) {
             )}
           </div>
 
-          <div className="space-y-4 rounded-2xl border border-white/10 bg-white/5 p-6">
+          <div className="space-y-4 rounded-2xl border border-white/10 bg-white/5 p-5 sm:p-6">
             <div className="flex items-center justify-between gap-3">
               <h2 className="text-sm font-semibold uppercase tracking-[0.2em] text-white/70">
                 Issues
@@ -127,7 +127,7 @@ export default function ResultsPanel({ report }: ResultsPanelProps) {
               <ul className="space-y-3">
                 {filteredIssues.map((issue, i) => (
                   <li key={i}>
-                    <div className="rounded-2xl border border-white/30 bg-white/95 p-4 text-[color:var(--foreground)] shadow-soft">
+                    <div className="rounded-2xl border border-white/30 bg-white/95 p-4 text-[color:var(--foreground)] shadow-soft transition-all duration-300 hover:-translate-y-0.5 hover:shadow-lift">
                       <p className="text-sm font-semibold">{issue.message}</p>
                       <p className="mt-2 text-xs text-[color:var(--muted-foreground)]">
                         <span className="font-semibold">Why:</span> {issue.why}

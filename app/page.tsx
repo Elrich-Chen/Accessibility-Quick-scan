@@ -87,9 +87,9 @@ export default function Home() {
       </div>
 
       <header className="fixed left-0 right-0 top-0 z-20 border-b border-[color:var(--border)] bg-[color:var(--background)]/80 backdrop-blur-lg">
-        <div className="mx-auto flex h-20 w-full max-w-7xl items-center justify-between px-6">
+        <div className="mx-auto flex h-16 w-full max-w-7xl items-center justify-between px-4 sm:h-20 sm:px-6">
           <div className="flex items-center gap-3">
-            <span className="flex h-10 w-10 items-center justify-center rounded-2xl bg-gradient-to-br from-[var(--accent)] to-[var(--accent-secondary)] text-white shadow-accent">
+            <span className="flex h-10 w-10 items-center justify-center rounded-2xl bg-gradient-to-br from-[var(--accent)] to-[var(--accent-secondary)] text-white shadow-accent transition-transform duration-300 ease-out hover:-translate-y-0.5">
               <span className="material-symbols-outlined text-xl">search</span>
             </span>
             <div className="leading-tight">
@@ -107,11 +107,11 @@ export default function Home() {
         </div>
       </header>
 
-      <main className="relative z-10 mx-auto flex w-full max-w-7xl flex-col gap-16 px-6 pb-24 pt-28">
-        <section className="mx-auto grid min-h-[70vh] w-full max-w-6xl items-center gap-12 py-6 lg:min-h-[75vh] lg:grid-cols-[1.1fr_0.9fr] lg:py-12">
+      <main className="relative z-10 mx-auto flex w-full max-w-7xl flex-col gap-12 px-4 pb-20 pt-24 sm:px-6 sm:pb-24 sm:pt-28">
+        <section className="mx-auto grid min-h-[60vh] w-full max-w-6xl items-center gap-10 py-4 sm:min-h-[70vh] sm:py-6 lg:min-h-[75vh] lg:grid-cols-[1.1fr_0.9fr] lg:py-12">
           <div className="space-y-6">
             <SectionLabel>WCAG QuickScan</SectionLabel>
-            <h1 className="font-display text-[2.75rem] leading-[1.05] tracking-tight sm:text-6xl lg:text-[5.25rem]">
+            <h1 className="font-display text-[2.35rem] leading-[1.08] tracking-tight sm:text-5xl lg:text-[5.25rem]">
               Make accessibility checks feel{" "}
               <span className="relative inline-block">
                 <span className="gradient-text">instant</span>
@@ -174,14 +174,14 @@ export default function Home() {
         </section>
 
         <section id="scan" className="relative">
-          <div className="mb-10 grid gap-6 lg:grid-cols-[1.05fr_0.95fr]">
+          <div className="mb-8 grid gap-4 sm:mb-10 sm:gap-6 lg:grid-cols-[1.05fr_0.95fr]">
             <div
               ref={statsRef}
-              className="relative overflow-hidden rounded-3xl border border-[color:var(--border)] bg-[color:var(--card)] p-6 shadow-soft"
+              className="relative overflow-hidden rounded-3xl border border-[color:var(--border)] bg-[color:var(--card)] p-5 shadow-soft transition-all duration-300 ease-out hover:-translate-y-1 hover:shadow-lift focus-within:shadow-lift sm:p-6"
             >
               <div className="pointer-events-none absolute -right-10 -top-12 h-40 w-40 rounded-full bg-[rgba(0,82,255,0.18)] blur-[90px]" />
               <p
-                className={`font-display text-5xl tracking-tight transition-opacity duration-700 sm:text-6xl lg:text-7xl ${
+                className={`font-display text-4xl tracking-tight transition-opacity duration-700 sm:text-6xl lg:text-7xl ${
                   statsVisible ? "opacity-100" : "opacity-0"
                 }`}
               >
@@ -191,16 +191,16 @@ export default function Home() {
                 websites loaded for quick checks
               </p>
             </div>
-            <div className="flex flex-col justify-between gap-3 rounded-3xl border border-[color:var(--border)] bg-[color:var(--muted)] p-6 text-sm text-[color:var(--muted-foreground)]">
-              <p className="text-base text-[color:var(--foreground)]">
+            <div className="flex flex-col justify-between gap-3 rounded-3xl border border-[color:var(--border)] bg-[color:var(--muted)] p-5 text-sm text-[color:var(--muted-foreground)] transition-all duration-300 ease-out hover:-translate-y-1 hover:shadow-lift sm:p-6">
+              <p className="text-base text-[color:var(--foreground)] sm:text-lg">
                 Drop a snippet below or drag the sample bubble to see the scanner in action.
               </p>
               <p className="text-xs">No signup. No storage. Just quick checks.</p>
             </div>
           </div>
           <div className="rounded-[2rem] bg-gradient-to-br from-[var(--accent)] via-[var(--accent-secondary)] to-[var(--accent)] p-[2px] shadow-accent-lg">
-            <Card className="rounded-[calc(2rem-2px)] p-8 shadow-lift md:p-10">
-              <div className="grid gap-10 2xl:grid-cols-[0.7fr_1.3fr]">
+            <Card className="rounded-[calc(2rem-2px)] p-6 shadow-lift sm:p-8 md:p-10">
+              <div className="grid gap-8 lg:gap-10 2xl:grid-cols-[0.7fr_1.3fr]">
                 <ScannerInput html={html} onHtmlChange={setHtml} onScan={handleScan} />
                 <ResultsPanel report={report} />
               </div>
