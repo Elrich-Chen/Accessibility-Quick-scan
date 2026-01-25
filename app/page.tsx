@@ -1,84 +1,10 @@
-"use client";
-
-import ResultsPanel from "@/components/ResultsPanel";
-import { useEffect, useRef, useState } from "react";
-import ScannerInput from "@/components/ScannerInput";
-import { parseHTML } from "@/lib/parser";
-import { runScan } from "@/lib/runScan";
-import type { Report } from "@/lib/types";
 import Card from "@/components/ui/Card";
 import SectionLabel from "@/components/ui/SectionLabel";
+import ScannerExperience from "@/components/ScannerExperience";
+import StatsCounter from "@/components/StatsCounter";
 // import Image from "next/image";
 
 export default function Home() {
-  const [html, setHtml] = useState("");
-  const [report, setReport] = useState<Report | null>(null);
-  const [sitesLoaded, setSitesLoaded] = useState(0);
-  const statsRef = useRef<HTMLDivElement | null>(null);
-  const [statsVisible, setStatsVisible] = useState(false);
-
-  useEffect(() => {
-    const node = statsRef.current;
-    if (!node) return;
-
-    const observer = new IntersectionObserver(
-      ([entry]) => {
-        if (entry.isIntersecting) {
-          setStatsVisible(true);
-          observer.disconnect();
-        }
-      },
-      { threshold: 0.35 }
-    );
-
-    observer.observe(node);
-    return () => observer.disconnect();
-  }, []);
-
-  useEffect(() => {
-    if (!statsVisible) return;
-
-    const target = 200;
-    const durationMs = 1200;
-    const start = Date.now();
-    let rafId = 0;
-    const prefersReducedMotion = window.matchMedia(
-      "(prefers-reduced-motion: reduce)"
-    ).matches;
-
-    if (prefersReducedMotion) {
-      setSitesLoaded(target);
-      return;
-    }
-
-    const tick = () => {
-      const elapsed = Date.now() - start;
-      const progress = Math.min(elapsed / durationMs, 1);
-      setSitesLoaded(Math.floor(target * progress));
-      if (progress < 1) {
-        rafId = requestAnimationFrame(tick);
-      }
-    };
-
-    rafId = requestAnimationFrame(tick);
-    return () => cancelAnimationFrame(rafId);
-  }, [statsVisible]);
-
-  const sitesLoadedLabel = sitesLoaded >= 200 ? "200+" : `${sitesLoaded}`;
-
-  function handleScan() {
-    const doc = parseHTML(html);
-
-    if (doc !== null){
-      const results = runScan(doc);
-      // here is where i call the actual scanning function
-      setReport(results);
-    } else {
-      setReport(null);
-    }
-  }
-
-
   return (
     <div className="relative min-h-screen overflow-hidden bg-[color:var(--background)] text-[color:var(--foreground)]">
       <div className="pointer-events-none absolute inset-0">
@@ -175,22 +101,7 @@ export default function Home() {
 
         <section id="scan" className="relative">
           <div className="mb-8 grid gap-4 sm:mb-10 sm:gap-6 lg:grid-cols-[1.05fr_0.95fr]">
-            <div
-              ref={statsRef}
-              className="relative overflow-hidden rounded-3xl border border-[color:var(--border)] bg-[color:var(--card)] p-5 shadow-soft transition-all duration-300 ease-out hover:-translate-y-1 hover:shadow-lift focus-within:shadow-lift sm:p-6"
-            >
-              <div className="pointer-events-none absolute -right-10 -top-12 h-40 w-40 rounded-full bg-[rgba(0,82,255,0.18)] blur-[90px]" />
-              <p
-                className={`font-display text-4xl tracking-tight transition-opacity duration-700 sm:text-6xl lg:text-7xl ${
-                  statsVisible ? "opacity-100" : "opacity-0"
-                }`}
-              >
-                {sitesLoadedLabel}
-              </p>
-              <p className="mt-2 text-xs font-mono uppercase tracking-[0.25em] text-[color:var(--muted-foreground)]">
-                websites loaded for quick checks
-              </p>
-            </div>
+            <StatsCounter target={200} />
             <div className="flex flex-col justify-between gap-3 rounded-3xl border border-[color:var(--border)] bg-[color:var(--muted)] p-5 text-sm text-[color:var(--muted-foreground)] transition-all duration-300 ease-out hover:-translate-y-1 hover:shadow-lift sm:p-6">
               <p className="text-base text-[color:var(--foreground)] sm:text-lg">
                 Drop a snippet below or drag the sample bubble to see the scanner in action.
@@ -200,10 +111,7 @@ export default function Home() {
           </div>
           <div className="rounded-[2rem] bg-gradient-to-br from-[var(--accent)] via-[var(--accent-secondary)] to-[var(--accent)] p-[2px] shadow-accent-lg">
             <Card className="rounded-[calc(2rem-2px)] p-6 shadow-lift sm:p-8 md:p-10">
-              <div className="grid gap-8 lg:gap-10 2xl:grid-cols-[0.7fr_1.3fr]">
-                <ScannerInput html={html} onHtmlChange={setHtml} onScan={handleScan} />
-                <ResultsPanel report={report} />
-              </div>
+              <ScannerExperience />
             </Card>
           </div>
         </section>
