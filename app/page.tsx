@@ -101,7 +101,7 @@ export default function Home() {
 
         <section id="scan" className="relative">
           <div className="mb-8 grid gap-4 sm:mb-10 sm:gap-6 lg:grid-cols-[1.05fr_0.95fr]">
-            <StatsCounter target={200} />
+            <StatsCounter />
             <div className="flex flex-col justify-between gap-3 rounded-3xl border border-[color:var(--border)] bg-[color:var(--muted)] p-5 text-sm text-[color:var(--muted-foreground)] transition-all duration-300 ease-out hover:-translate-y-1 hover:shadow-lift sm:p-6">
               <p className="text-base text-[color:var(--foreground)] sm:text-lg">
                 Drop a snippet below or drag the sample bubble to see the scanner in action.
