@@ -77,17 +77,19 @@ export default function ResultsPanel({ report }: ResultsPanelProps) {
               </span>
             </div>
 
-            {passes.length === 0 ? (
-              <p className="mt-4 text-sm text-white/60">No passes yet.</p>
-            ) : (
-              <ul className="mt-4 space-y-2 text-sm text-white/80">
-                {passes.map((p, i) => (
-                  <li key={i} className="leading-relaxed">
-                    {p}
-                  </li>
-                ))}
-              </ul>
-            )}
+            <div className="mt-4 max-h-[220px] overflow-y-auto pr-2">
+              {passes.length === 0 ? (
+                <p className="text-sm text-white/60">No passes yet.</p>
+              ) : (
+                <ul className="space-y-2 text-sm text-white/80">
+                  {passes.map((p, i) => (
+                    <li key={i} className="leading-relaxed">
+                      {p}
+                    </li>
+                  ))}
+                </ul>
+              )}
+            </div>
           </div>
 
           <div className="space-y-4 rounded-2xl border border-white/10 bg-white/5 p-5 sm:p-6">
@@ -123,26 +125,28 @@ export default function ResultsPanel({ report }: ResultsPanelProps) {
               })}
             </div>
 
-            {filteredIssues.length === 0 ? (
-              <p className="text-sm text-white/60">No issues found.</p>
-            ) : (
-              <ul className="space-y-3">
-                {filteredIssues.map((issue, i) => (
-                  <li key={i}>
-                    <div className="rounded-2xl border border-white/30 bg-white/95 p-4 text-[color:var(--foreground)] shadow-soft transition-all duration-300 hover:-translate-y-0.5 hover:shadow-lift">
-                      <p className="text-sm font-semibold">{issue.message}</p>
-                      <p className="mt-2 text-xs text-[color:var(--muted-foreground)]">
-                        <span className="font-semibold">Why:</span> {issue.why}
-                      </p>
-                      <p className="mt-1 text-xs text-[color:var(--accent)]">
-                        <span className="font-semibold">Fix:</span>{" "}
-                        {issue.suggestion}
-                      </p>
-                    </div>
-                  </li>
-                ))}
-              </ul>
-            )}
+            <div className="max-h-[320px] overflow-y-auto pr-2 sm:max-h-[420px]">
+              {filteredIssues.length === 0 ? (
+                <p className="text-sm text-white/60">No issues found.</p>
+              ) : (
+                <ul className="space-y-3">
+                  {filteredIssues.map((issue, i) => (
+                    <li key={i}>
+                      <div className="rounded-2xl border border-white/30 bg-white/95 p-4 text-[color:var(--foreground)] shadow-soft transition-all duration-300 hover:-translate-y-0.5 hover:shadow-lift">
+                        <p className="text-sm font-semibold">{issue.message}</p>
+                        <p className="mt-2 text-xs text-[color:var(--muted-foreground)]">
+                          <span className="font-semibold">Why:</span> {issue.why}
+                        </p>
+                        <p className="mt-1 text-xs text-[color:var(--accent)]">
+                          <span className="font-semibold">Fix:</span>{" "}
+                          {issue.suggestion}
+                        </p>
+                      </div>
+                    </li>
+                  ))}
+                </ul>
+              )}
+            </div>
           </div>
         </div>
       </div>
